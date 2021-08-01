@@ -125,6 +125,60 @@ namespace TestDeviceAPI
             Assert.AreEqual("Brand3", devices[5].Brand);
         }
 
+        [Test]
+        public async Task TestPutDevice()
+        {
+            using var context = GetData();
+            var controller = new DevicesController(context);
+
+            DeviceData device = new DeviceData
+            {
+                Id = 1,
+                Name = "Device6",
+                Brand = "Brand3"
+            };
+
+            await controller.PutDevice(1, device);
+
+            Device device1;
+            var result = await controller.GetDevice(1);
+            Assert.IsNotNull(result.Value);
+            Assert.AreEqual(typeof(Device), result.Value.GetType());
+            device1 = result.Value;
+            Assert.AreEqual(1, device1.Id);
+            Assert.AreEqual("Device6", device1.Name);
+            Assert.AreEqual("Brand3", device1.Brand);
+
+            device.Name = "Device7";
+            device.Brand = null;
+            await controller.PutDevice(1, device);
+
+            result = await controller.GetDevice(1);
+            Assert.IsNotNull(result.Value);
+            Assert.AreEqual(typeof(Device), result.Value.GetType());
+            device1 = result.Value;
+            Assert.AreEqual(1, device1.Id);
+            Assert.AreEqual("Device7", device1.Name);
+            Assert.AreEqual("Brand3", device1.Brand);
+
+            device.Name = null;
+            device.Brand = "Brand4";
+            await controller.PutDevice(1, device);
+
+            result = await controller.GetDevice(1);
+            Assert.IsNotNull(result.Value);
+            Assert.AreEqual(typeof(Device), result.Value.GetType());
+            device1 = result.Value;
+            Assert.AreEqual(1, device1.Id);
+            Assert.AreEqual("Device7", device1.Name);
+            Assert.AreEqual("Brand4", device1.Brand);
+
+            await controller.PutDevice(7, device);
+
+            device.Id = 8;
+            await controller.PutDevice(8, device);
+        }
+
         private DeviceAPIContext GetData()
         {
             var options = new DbContextOptionsBuilder<DeviceAPIContext>().UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;

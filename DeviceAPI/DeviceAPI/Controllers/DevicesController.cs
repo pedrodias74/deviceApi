@@ -61,14 +61,29 @@ namespace DeviceAPI.Controllers
 
         // PUT: api/Devices/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDevice(int id, Device device)
+        public async Task<IActionResult> PutDevice(int id, DeviceData deviceData)
         {
-            if (id != device.Id)
+            if (id != deviceData.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(device).State = EntityState.Modified;
+            var device = await _context.Device.FindAsync(id);
+            if (device == null)
+            {
+                return NotFound();
+            }
+
+            if(!(deviceData.Name is null))
+                device.Name = deviceData.Name;
+
+            if (!(deviceData.Brand is null))
+                device.Brand = deviceData.Brand;
+
+            device.UpdatedOn = DateTime.Now;
+            device.UpdatedBy = User?.Identity?.Name;
+
+            //_context.Entry(deviceData).State = EntityState.Modified;
 
             try
             {
@@ -91,13 +106,13 @@ namespace DeviceAPI.Controllers
 
         // POST: api/Devices
         [HttpPost]
-        public async Task<ActionResult<Device>> PostDevice(DeviceData device)
+        public async Task<ActionResult<Device>> PostDevice(DeviceData deviceData)
         {
-            Device newDevice = new Device(device);
-            _context.Device.Add(newDevice);
+            Device device = new Device(deviceData, User?.Identity?.Name);
+            _context.Device.Add(device);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDevice", new { id = newDevice.Id }, newDevice);
+            return CreatedAtAction("GetDevice", new { id = device.Id }, device);
         }
 
         // DELETE: api/Devices/5
