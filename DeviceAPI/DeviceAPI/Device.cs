@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DeviceAPI
 {
-    public class DeviceData
+    public class Device
     {
         public int Id { get; set; }
 
