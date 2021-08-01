@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DeviceAPI;
 using DeviceAPI.Data;
+using Microsoft.Extensions.Logging;
 
 namespace DeviceAPI.Controllers
 {
@@ -14,10 +15,13 @@ namespace DeviceAPI.Controllers
     [ApiController]
     public class DevicesController : ControllerBase
     {
+        //private readonly ILogger<DevicesController> _logger;
+
         private readonly DeviceAPIContext _context;
 
         public DevicesController(DeviceAPIContext context)
         {
+            //_logger = logger;
             _context = context;
         }
 
