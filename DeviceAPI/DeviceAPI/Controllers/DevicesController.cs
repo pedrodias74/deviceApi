@@ -21,6 +21,7 @@ namespace DeviceAPI.Controllers
 
         public DevicesController(DeviceAPIContext context)
         {
+            // TODO: add logger
             //_logger = logger;
             _context = context;
         }
@@ -29,11 +30,13 @@ namespace DeviceAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Device>>> GetDevice(string brand)
         {
+            // if brand is not passed then return all devices
             if (string.IsNullOrEmpty(brand))
             {
                 return await _context.Device.ToListAsync();
             }
 
+            // find the group of devices of a brand
             var devices = await _context.Device.Where(d => d.Brand == brand).ToListAsync();
             if (devices == null)
             {
@@ -48,7 +51,6 @@ namespace DeviceAPI.Controllers
         public async Task<ActionResult<Device>> GetDevice(int id)
         {
             var device = await _context.Device.FindAsync(id);
-
             if (device == null)
             {
                 return NotFound();
@@ -89,12 +91,13 @@ namespace DeviceAPI.Controllers
 
         // POST: api/Devices
         [HttpPost]
-        public async Task<ActionResult<Device>> PostDevice(Device device)
+        public async Task<ActionResult<Device>> PostDevice(DeviceData device)
         {
-            _context.Device.Add(device);
+            Device newDevice = new Device(device);
+            _context.Device.Add(newDevice);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDevice", new { id = device.Id }, device);
+            return CreatedAtAction("GetDevice", new { id = newDevice.Id }, newDevice);
         }
 
         // DELETE: api/Devices/5

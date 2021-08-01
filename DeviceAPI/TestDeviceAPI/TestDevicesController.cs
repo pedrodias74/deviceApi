@@ -99,6 +99,32 @@ namespace TestDeviceAPI
             Assert.IsNull(result1.Value);
         }
 
+        [Test]
+        public async Task TestPostDevice()
+        {
+            using var context = GetData();
+            var controller = new DevicesController(context);
+
+            DeviceData device = new DeviceData { 
+                Id = 6,
+                Name = "Device6",
+                Brand = "Brand3"
+            };
+
+            var result = await controller.PostDevice(device);
+            Assert.IsNull(result.Value);
+
+            var results = await controller.GetDevice(null);
+            Assert.IsNotNull(results.Value);
+            Assert.AreEqual(typeof(List<Device>), results.Value.GetType());
+            List<Device> devices = (List<Device>)results.Value;
+            Assert.AreEqual(6, devices.Count);
+
+            Assert.AreEqual(6, devices[5].Id);
+            Assert.AreEqual("Device6", devices[5].Name);
+            Assert.AreEqual("Brand3", devices[5].Brand);
+        }
+
         private DeviceAPIContext GetData()
         {
             var options = new DbContextOptionsBuilder<DeviceAPIContext>().UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;

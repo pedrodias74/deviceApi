@@ -10,6 +10,20 @@ namespace DeviceAPI
     /// </summary>
     public class Device
     {
+        public Device()
+        {
+
+        }
+
+        public Device(DeviceData deviceData, string user = null)
+        {
+            Id = deviceData.Id;
+            Name = deviceData.Name;
+            Brand = deviceData.Brand;
+            CreatedOn = DateTime.Now;
+            CreatedBy = user;
+        }
+
         /// <summary>
         /// device id
         /// </summary>
