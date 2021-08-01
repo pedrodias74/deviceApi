@@ -48,6 +48,20 @@ namespace TestDeviceAPI
             Assert.AreEqual("Brand2", devices2[0].Brand);
         }
 
+        [Test]
+        public async Task TestGetDeviceById()
+        {
+            using var context = GetData();
+            var controller = new DevicesController(context);
+
+            var result = await controller.GetDevice(1);
+            Assert.AreEqual(typeof(Device), result.Value.GetType());
+            Device devices = result.Value;
+            Assert.AreEqual(1, devices.Id);
+            Assert.AreEqual("Device1", devices.Name);
+            Assert.AreEqual("Brand1", devices.Brand);
+        }
+
         private DeviceAPIContext GetData()
         {
             var options = new DbContextOptionsBuilder<DeviceAPIContext>().UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;
