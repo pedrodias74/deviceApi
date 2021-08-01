@@ -47,14 +47,14 @@ namespace DeviceAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Device>> GetDevice(int id)
         {
-            var Device = await _context.Device.FindAsync(id);
+            var device = await _context.Device.FindAsync(id);
 
-            if (Device == null)
+            if (device == null)
             {
                 return NotFound();
             }
 
-            return Device;
+            return device;
         }
 
         // PUT: api/Devices/5
@@ -101,16 +101,16 @@ namespace DeviceAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Device>> DeleteDevice(int id)
         {
-            var Device = await _context.Device.FindAsync(id);
-            if (Device == null)
+            var device = await _context.Device.FindAsync(id);
+            if (device == null)
             {
                 return NotFound();
             }
 
-            _context.Device.Remove(Device);
+            _context.Device.Remove(device);
             await _context.SaveChangesAsync();
 
-            return Device;
+            return device;
         }
 
         private bool DeviceExists(int id)
