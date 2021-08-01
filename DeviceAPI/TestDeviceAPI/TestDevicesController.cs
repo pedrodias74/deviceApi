@@ -22,11 +22,30 @@ namespace TestDeviceAPI
         {
             using var context = GetData();
             var controller = new DevicesController(context);
-            var result = await controller.GetDevice();
 
+            var result = await controller.GetDevice(null);
             Assert.AreEqual(typeof(List<Device>), result.Value.GetType());
             List<Device> devices = (List<Device>)result.Value;
             Assert.AreEqual(5, devices.Count);
+        }
+
+        [Test]
+        public async Task TestGetDeviceByBrand()
+        {
+            using var context = GetData();
+            var controller = new DevicesController(context);
+
+            var result1 = await controller.GetDevice("Brand1");
+            Assert.AreEqual(typeof(List<Device>), result1.Value.GetType());
+            List<Device> devices1 = (List<Device>)result1.Value;
+            Assert.AreEqual(3, devices1.Count);
+            Assert.AreEqual("Brand1", devices1[0].Brand);
+
+            var result2 = await controller.GetDevice("Brand2");
+            Assert.AreEqual(typeof(List<Device>), result2.Value.GetType());
+            List<Device> devices2 = (List<Device>)result2.Value;
+            Assert.AreEqual(2, devices2.Count);
+            Assert.AreEqual("Brand2", devices2[0].Brand);
         }
 
         private DeviceAPIContext GetData()

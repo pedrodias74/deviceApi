@@ -27,9 +27,20 @@ namespace DeviceAPI.Controllers
 
         // GET: api/Devices
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Device>>> GetDevice()
+        public async Task<ActionResult<IEnumerable<Device>>> GetDevice(string brand)
         {
-            return await _context.Device.ToListAsync();
+            if (string.IsNullOrEmpty(brand))
+            {
+                return await _context.Device.ToListAsync();
+            }
+
+            var devices = await _context.Device.Where(d => d.Brand == brand).ToListAsync();
+            if (devices == null)
+            {
+                return NotFound();
+            }
+
+            return devices;
         }
 
         // GET: api/Devices/5
