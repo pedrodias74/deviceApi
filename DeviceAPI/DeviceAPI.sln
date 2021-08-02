@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31229.75
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviceAPI", "DeviceAPI\DeviceAPI.csproj", "{6C673E34-7534-40FA-8438-03A30A7F481F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestDeviceAPI", "TestDeviceAPI\TestDeviceAPI.csproj", "{96BD6FCD-F69D-4E24-A2FE-038804C2F60D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{76B94B9D-C062-41D1-A923-E37ABD1D3523}"
+	ProjectSection(SolutionItems) = preProject
+		BuildDebug.bat = BuildDebug.bat
+		BuildRelease.bat = BuildRelease.bat
+		README.txt = README.txt
+		RunServerDebug.bat = RunServerDebug.bat
+		RunServerRelease.bat = RunServerRelease.bat
+		RunTestDebug.bat = RunTestDebug.bat
+		RunTestRelease.bat = RunTestRelease.bat
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{0E08807D-7F12-44BE-8457-0B24E79D9B7D}"
+	ProjectSection(SolutionItems) = preProject
+		Scripts\create_database.sql = Scripts\create_database.sql
+		Scripts\create_objects.sql = Scripts\create_objects.sql
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6C673E34-7534-40FA-8438-03A30A7F481F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C673E34-7534-40FA-8438-03A30A7F481F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C673E34-7534-40FA-8438-03A30A7F481F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C673E34-7534-40FA-8438-03A30A7F481F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96BD6FCD-F69D-4E24-A2FE-038804C2F60D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96BD6FCD-F69D-4E24-A2FE-038804C2F60D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96BD6FCD-F69D-4E24-A2FE-038804C2F60D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96BD6FCD-F69D-4E24-A2FE-038804C2F60D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0E08807D-7F12-44BE-8457-0B24E79D9B7D} = {76B94B9D-C062-41D1-A923-E37ABD1D3523}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5A508BFE-2222-47CA-963E-7DC65EE4E989}
+	EndGlobalSection
+EndGlobal

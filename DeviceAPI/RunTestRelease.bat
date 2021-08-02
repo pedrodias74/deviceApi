@@ -1,0 +1,1 @@
+dotnet test ./TestDeviceAPI/TestDeviceAPI.csproj -v n -c Release
