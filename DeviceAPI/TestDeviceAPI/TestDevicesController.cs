@@ -79,6 +79,13 @@ namespace TestDeviceAPI
             devices = (List<Device>)result.Value;
             Assert.AreEqual(0, devices.Count);
 
+            // tests getting 1st page with brand
+            result = await controller.GetDevice("Brand1", 1, 2);
+            Assert.IsNotNull(result.Value);
+            Assert.AreEqual(typeof(List<Device>), result.Value.GetType());
+            devices = (List<Device>)result.Value;
+            Assert.AreEqual(2, devices.Count);
+
             // tests bad page request
             result = await controller.GetDevice(null, null, 2);
             Assert.IsNull(result.Value);

@@ -22,8 +22,19 @@ namespace DeviceAPI
         {
             services.AddControllers();
 
-            services.AddDbContext<DeviceAPIContext>(options =>
+            bool test = Configuration.GetValue<bool>("Test");
+
+            if(!test)
+            {
+                // uses sql server as database
+                services.AddDbContext<DeviceAPIContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DeviceAPIContext")));
+            }
+            else
+            {
+                // uses in memory database
+                services.AddDbContext<DeviceAPIContext>(options => options.UseInMemoryDatabase(databaseName: "DeviceDatabase"));
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

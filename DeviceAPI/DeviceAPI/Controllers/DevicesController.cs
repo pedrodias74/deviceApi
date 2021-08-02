@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using DeviceAPI;
 using DeviceAPI.Data;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
+using System.Threading;
 
 namespace DeviceAPI.Controllers
 {
@@ -16,7 +18,6 @@ namespace DeviceAPI.Controllers
     public class DevicesController : ControllerBase
     {
         //private readonly ILogger<DevicesController> _logger;
-
         private readonly DeviceAPIContext _context;
 
         public DevicesController(DeviceAPIContext context)
@@ -62,10 +63,12 @@ namespace DeviceAPI.Controllers
             // if no pagination return all devices found
             if(page is null)
             {
-                return devices;
+                return devices.OrderBy(d => d.Id).ToList();
             }
 
             List<Device> paged = new List<Device>();
+
+            List<Device> ordered = devices.OrderBy(d => d.Id).ToList();
 
             try
             {
@@ -79,9 +82,9 @@ namespace DeviceAPI.Controllers
                     return paged;
 
                 if (pages == (int)page)
-                    paged = devices.GetRange((int)page - 1, rest);
+                    paged = ordered.GetRange((int)page - 1, rest);
                 else
-                    paged = devices.GetRange((int)page - 1, (int) rowsPerPage);
+                    paged = ordered.GetRange((int)page - 1, (int) rowsPerPage);
 
                 return paged;
             }
@@ -156,6 +159,7 @@ namespace DeviceAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Device>> PostDevice(DeviceData deviceData)
         {
+            // generates the new device based on the properties passed
             Device device = new Device(deviceData, User?.Identity?.Name);
             _context.Device.Add(device);
             await _context.SaveChangesAsync();

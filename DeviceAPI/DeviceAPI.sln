@@ -9,7 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDeviceAPI", "TestDevice
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{76B94B9D-C062-41D1-A923-E37ABD1D3523}"
 	ProjectSection(SolutionItems) = preProject
+		BuildDebug.bat = BuildDebug.bat
+		BuildRelease.bat = BuildRelease.bat
 		README.txt = README.txt
+		RunTestDebug.bat = RunTestDebug.bat
+		RunTestRelease.bat = RunTestRelease.bat
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{0E08807D-7F12-44BE-8457-0B24E79D9B7D}"
