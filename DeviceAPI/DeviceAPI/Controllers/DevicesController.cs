@@ -152,13 +152,18 @@ namespace DeviceAPI.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok();
         }
 
         // POST: api/Devices
         [HttpPost]
         public async Task<ActionResult<Device>> PostDevice(DeviceData deviceData)
         {
+            if(DeviceExists(deviceData.Id))
+            {
+                return ValidationProblem();
+            }
+
             // generates the new device based on the properties passed
             Device device = new Device(deviceData, User?.Identity?.Name);
             _context.Device.Add(device);
