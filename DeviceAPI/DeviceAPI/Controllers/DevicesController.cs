@@ -28,22 +28,69 @@ namespace DeviceAPI.Controllers
 
         // GET: api/Devices
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Device>>> GetDevice(string brand)
+        public async Task<ActionResult<IEnumerable<Device>>> GetDevice(string brand = null, int? page = null, int? rowsPerPage = null)
         {
-            // if brand is not passed then return all devices
+            // check if the pagination parameters are consistent
+            if((page is null && !(rowsPerPage is null)) || (rowsPerPage is null && !(page is null)))
+            {
+                return BadRequest();
+            }
+            else
+            {
+                // page and rows per page must be greated then 0
+                if (!(page is null) && (page < 1 || rowsPerPage < 1))
+                    return BadRequest();
+            }
+
+            List<Device> devices;
+
             if (string.IsNullOrEmpty(brand))
             {
-                return await _context.Device.ToListAsync();
+                // if brand is not passed then return all devices
+                devices = await _context.Device.ToListAsync();
             }
-
-            // find the group of devices of a brand
-            var devices = await _context.Device.Where(d => d.Brand == brand).ToListAsync();
-            if (devices == null)
+            else
             {
-                return NotFound();
+                // find the group of devices of a brand
+                devices = await _context.Device.Where(d => d.Brand == brand).ToListAsync();
+                if (devices == null)
+                {
+                    return NotFound();
+                }
             }
 
-            return devices;
+            // if no pagination return all devices found
+            if(page is null)
+            {
+                return devices;
+            }
+
+            List<Device> paged = new List<Device>();
+
+            try
+            {
+                int count = devices.Count;
+
+                int pages = count / (int) rowsPerPage ;
+                pages++;
+                int rest = count % (int)rowsPerPage;
+
+                if ((int)page > pages)
+                    return paged;
+
+                if (pages == (int)page)
+                    paged = devices.GetRange((int)page - 1, rest);
+                else
+                    paged = devices.GetRange((int)page - 1, (int) rowsPerPage);
+
+                return paged;
+            }
+            catch(ArgumentException)
+            {
+
+            }
+
+            return paged;
         }
 
         // GET: api/Devices/5
@@ -74,6 +121,7 @@ namespace DeviceAPI.Controllers
                 return NotFound();
             }
 
+            // only update the given properties
             if(!(deviceData.Name is null))
                 device.Name = deviceData.Name;
 
